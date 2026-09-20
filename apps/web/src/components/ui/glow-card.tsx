@@ -39,9 +39,9 @@ export function GlowCard({
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       className={cn(
-        'group/glow relative overflow-hidden rounded-token-lg border border-line-subtle bg-base-900/70',
+        'group/glow relative overflow-hidden rounded-token-lg border border-line-default bg-base-850',
         'shadow-card transition-[border-color,transform] duration-300',
-        'hover:-translate-y-1 hover:border-accent-700',
+        'hover:-translate-y-1 hover:border-accent-600',
         className,
       )}
     >

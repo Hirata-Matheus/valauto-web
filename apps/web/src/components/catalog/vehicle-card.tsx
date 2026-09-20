@@ -41,7 +41,7 @@ export function VehicleCard({ vehicle }: { vehicle: Vehicle }) {
             />
           ) : (
             <div
-              className="flex h-full w-full items-center justify-center bg-gradient-to-br from-base-700 to-base-850"
+              className="flex h-full w-full items-center justify-center bg-gradient-to-br from-base-700 to-base-800"
               aria-hidden="true"
             >
               <span className="text-4xl font-bold text-accent-400/30">{initials(vehicle)}</span>

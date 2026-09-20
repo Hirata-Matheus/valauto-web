@@ -48,7 +48,7 @@
   }
 
   .surface {
-    @apply rounded-token-lg border border-line-subtle bg-base-900/70 backdrop-blur-sm;
+    @apply rounded-token-lg border border-line-default bg-base-850/95 shadow-card backdrop-blur-sm;
   }
 
   .btn {

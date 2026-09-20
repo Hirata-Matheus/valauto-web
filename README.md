@@ -64,6 +64,12 @@ quebrar.
    nada gravado: termina com uma exceção proposital que desfaz tudo — a mensagem
    `SMOKE TEST PASSED` significa sucesso.
 
+7. (Opcional) Para popular o catálogo com avaliações de demonstração, rode
+   `supabase/seed_demo_reviews.sql`. Cria 30 usuários fictícios (e-mails
+   `@demo.valauto.invalid`, sem senha) e 75 avaliações. **São dados fictícios:**
+   não os deixe num site público como se fossem opiniões de clientes reais.
+   `supabase/cleanup_demo_reviews.sql` remove tudo de uma vez.
+
 Se o app subir mostrando dados de exemplo mesmo com as variáveis definidas, o log
 do servidor traz o aviso `[valauto] Supabase não configurado` — é o fallback em
 memória entrando em ação.

@@ -73,7 +73,7 @@ export function StarRatingInput({
             style={{ width: `${percentage}%` }}
             aria-hidden="true"
           >
-            <span className="inline-flex gap-1 text-accent-400">
+            <span className="inline-flex gap-1 text-star">
               {Array.from({ length: RATING_MAX }, (_, index) => (
                 <StarIcon key={index} className="h-7 w-7" />
               ))}

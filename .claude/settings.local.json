@@ -26,7 +26,12 @@
       "Bash(sed -i '28s/NEXT_PUBLIC_SUPABASE_ANON_KEY/NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY/' README.md)",
       "Bash(sed -i '63s/NEXT_PUBLIC_SUPABASE_ANON_KEY/NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY/' apps/web/src/components/auth/signup-form.tsx)",
       "Bash(sed -i '58s/NEXT_PUBLIC_SUPABASE_ANON_KEY/NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY/' apps/web/src/components/vehicle/review-section.tsx)",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Read(//c/Users/conve/AppData/Local/Temp/claude/c--Users-conve-OneDrive-Documents-Projetos-valauto-web/f5efb97d-f425-4159-8fd8-f693ca9f2154/scratchpad/**)",
+      "Bash(SCRATCH=. node gen-demo-reviews.mjs)",
+      "Bash(node -)",
+      "Bash(node parse.mjs)",
+      "Bash(node -e \"const e=require\\('./expected.json'\\); Object.entries\\(e\\).sort\\(\\(a,b\\)=>b[1].overall-a[1].overall\\).forEach\\(\\([k,v]\\)=>console.log\\(v.overall.toFixed\\(2\\).padEnd\\(5\\), String\\(v.n\\).padEnd\\(2\\), k\\)\\)\")"
     ]
   }
 }

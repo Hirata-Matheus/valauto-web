@@ -16,6 +16,7 @@ export const valautoPreset = {
       colors: {
         base: colors.base,
         accent: colors.accent,
+        star: colors.star,
         content: colors.content,
         line: colors.border,
         status: colors.status,

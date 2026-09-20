@@ -30,6 +30,8 @@ export const colors = {
     800: '#0a5748',
     900: '#074036',
   },
+  /** Estrelas de avaliação preenchidas (dourado, independente do acento teal). */
+  star: '#eab308',
   /** Texto e bordas sobre o fundo escuro. */
   content: {
     primary: '#f2fbf8',
@@ -93,7 +95,8 @@ export const typography = {
 export const shadows = {
   glowSm: '0 0 0 1px rgba(31, 211, 168, 0.18), 0 8px 24px -12px rgba(31, 211, 168, 0.35)',
   glowMd: '0 0 0 1px rgba(31, 211, 168, 0.28), 0 18px 48px -18px rgba(31, 211, 168, 0.55)',
-  card: '0 16px 40px -24px rgba(0, 0, 0, 0.9)',
+  // Sombra + filete de luz no topo: separa o card do fundo escuro sem clareá-lo demais.
+  card: '0 16px 40px -24px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 255, 255, 0.045)',
 } as const;
 
 export const tokens = { colors, spacing, radii, typography, shadows } as const;

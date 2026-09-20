@@ -277,7 +277,7 @@ function RatingSlider({
     <label className="block">
       <span className="label">
         Nota mínima:{' '}
-        <strong className="text-accent-300">
+        <strong className="text-star">
           {draft > 0 ? `${formatRating(draft)} ★` : 'qualquer'}
         </strong>
       </span>

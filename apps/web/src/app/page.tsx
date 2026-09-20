@@ -50,7 +50,7 @@ export default async function HomePage() {
           <ul className="mt-token-lg flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-content-muted">
             {RATING_CATEGORY_SLUGS.map((slug) => (
               <li key={slug} className="flex items-center gap-1.5">
-                <Star className="h-3.5 w-3.5 text-accent-400" aria-hidden="true" />
+                <Star className="h-3.5 w-3.5 fill-star text-star" aria-hidden="true" />
                 {RATING_CATEGORY_LABELS[slug]}
               </li>
             ))}
