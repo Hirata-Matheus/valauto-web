@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from 'next';
 import { Inter } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { siteUrl } from '@/lib/env';
 import { QueryProvider } from '@/components/providers/query-provider';
 import { SiteHeader } from '@/components/layout/site-header';
@@ -51,6 +53,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           </main>
           <SiteFooter />
         </QueryProvider>
+        {/* Observabilidade da Vercel: só coleta quando o site roda na Vercel. */}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
