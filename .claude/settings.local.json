@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -s -o /dev/null -w \"\" http://localhost:3000/)",
+      "Bash(curl -s http://localhost:3000/)",
+      "Bash(curl -s \"http://localhost:3000/catalogo\")",
+      "Bash(curl -s \"http://localhost:3000/catalogo?type=moto\")",
+      "Bash(curl -s \"http://localhost:3000/catalogo?q=corolla\")",
+      "Bash(curl -s http://localhost:3000/veiculos/honda-civic-2024)",
+      "Bash(curl -s \"http://localhost:3000/api/vehicles?sort=price_asc\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{const j=JSON.parse\\(d\\);console.log\\('total:',j.total,'| paginas:',j.totalPages,'| 1o:',j.items[0].model,j.items[0].price\\)}\\)\")",
+      "Bash(curl -s \"http://localhost:3000/api/vehicles?minRating=4.5\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{const j=JSON.parse\\(d\\);console.log\\('total:',j.total,'|',j.items.map\\(v=>v.model+' '+v.summary.overallAverage\\).join\\(', '\\)\\)}\\)\")",
+      "Bash(curl -s \"http://localhost:3000/api/vehicles?page=2\")",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>{const j=JSON.parse\\(d\\);console.log\\('page:',j.page,'itens:',j.items.length\\)}\\)\")",
+      "Bash(curl -s http://localhost:3000/api/brands)",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>console.log\\(JSON.parse\\(d\\).length,'montadoras'\\)\\)\")",
+      "Bash(curl -s -o /dev/null -w \"status %{http_code}\\\\n\" -X POST http://localhost:3000/api/reviews -H 'content-type: application/json' -d '{\"vehicleId\":\"00000003-0000-4000-8000-000000000001\",\"ratings\":[{\"categoryId\":\"00000001-0000-4000-8000-000000000001\",\"score\":4}]}')",
+      "Bash(curl -s -o /dev/null -w \"status %{http_code}\\\\n\" http://localhost:3000/api/vehicles/nao-existe)",
+      "Bash(curl -s http://localhost:3000/sitemap.xml)"
+    ]
+  }
+}

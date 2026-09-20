@@ -1,0 +1,85 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-base-950 text-content-primary antialiased;
+    /* Brilho teal difuso no topo, como no protótipo. */
+    background-image:
+      radial-gradient(60rem 40rem at 50% -20%, rgba(18, 179, 145, 0.18), transparent 70%),
+      radial-gradient(40rem 30rem at 90% 10%, rgba(31, 211, 168, 0.08), transparent 70%);
+    background-attachment: fixed;
+  }
+
+  /* Foco visivel em todo controle navegavel por teclado. */
+  :focus-visible {
+    @apply outline-none ring-2 ring-accent-400 ring-offset-2 ring-offset-base-950;
+  }
+
+  ::selection {
+    @apply bg-accent-400/30 text-content-primary;
+  }
+
+  /* Respeita quem pediu menos movimento: GSAP e transicoes ficam instantaneos. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .surface {
+    @apply rounded-token-lg border border-line-subtle bg-base-900/70 backdrop-blur-sm;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-token px-4 py-2.5 text-sm font-semibold
+      transition-all duration-200 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply btn bg-accent-400 text-content-inverse hover:bg-accent-300 hover:shadow-glow-md;
+  }
+
+  .btn-secondary {
+    @apply btn border border-line-default bg-base-800/60 text-content-primary hover:border-accent-600 hover:bg-base-700/60;
+  }
+
+  .btn-ghost {
+    @apply btn text-content-secondary hover:bg-base-800/60 hover:text-content-primary;
+  }
+
+  .field {
+    @apply w-full rounded-token border border-line-default bg-base-900/80 px-3 py-2.5 text-sm
+      text-content-primary placeholder:text-content-muted
+      focus:border-accent-500 focus:outline-none focus:ring-1 focus:ring-accent-500;
+  }
+
+  .label {
+    @apply mb-1.5 block text-sm font-medium text-content-secondary;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 rounded-full border border-line-default bg-base-800/70
+      px-2.5 py-1 text-caption font-medium text-content-secondary;
+  }
+}
