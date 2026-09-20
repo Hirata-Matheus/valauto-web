@@ -55,7 +55,7 @@ export function ReviewSection({
     return (
       <Callout title="Autenticação não configurada">
         Defina <code className="text-accent-300">NEXT_PUBLIC_SUPABASE_URL</code> e{' '}
-        <code className="text-accent-300">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> em{' '}
+        <code className="text-accent-300">NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY</code> em{' '}
         <code className="text-accent-300">.env.local</code> para habilitar cadastro, verificação de
         e-mail e publicação de opiniões. O catálogo usa dados de exemplo enquanto isso.
       </Callout>

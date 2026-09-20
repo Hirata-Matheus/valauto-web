@@ -60,7 +60,7 @@ export function SignUpForm() {
         <h1 className="mb-2 text-h2 font-bold">Cadastro indisponível</h1>
         <p className="text-sm text-content-secondary">
           Configure <code className="text-accent-300">NEXT_PUBLIC_SUPABASE_URL</code> e{' '}
-          <code className="text-accent-300">NEXT_PUBLIC_SUPABASE_ANON_KEY</code> para habilitar
+          <code className="text-accent-300">NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY</code> para habilitar
           contas. O catálogo continua navegável com dados de exemplo.
         </p>
       </div>

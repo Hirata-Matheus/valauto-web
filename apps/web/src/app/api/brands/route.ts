@@ -1,11 +1,11 @@
 import { NextResponse } from 'next/server';
-import { getRepository } from '@/lib/data';
+import { getPublicRepository } from '@/lib/data';
 import { handleRouteError } from '@/lib/api';
 
 /** GET /api/brands — montadoras para o filtro do catálogo (público). */
 export async function GET() {
   try {
-    const repository = await getRepository();
+    const repository = getPublicRepository();
     const brands = await repository.listBrands();
 
     return NextResponse.json(brands, {

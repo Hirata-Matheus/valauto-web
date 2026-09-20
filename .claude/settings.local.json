@@ -17,7 +17,16 @@
       "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>console.log\\(JSON.parse\\(d\\).length,'montadoras'\\)\\)\")",
       "Bash(curl -s -o /dev/null -w \"status %{http_code}\\\\n\" -X POST http://localhost:3000/api/reviews -H 'content-type: application/json' -d '{\"vehicleId\":\"00000003-0000-4000-8000-000000000001\",\"ratings\":[{\"categoryId\":\"00000001-0000-4000-8000-000000000001\",\"score\":4}]}')",
       "Bash(curl -s -o /dev/null -w \"status %{http_code}\\\\n\" http://localhost:3000/api/vehicles/nao-existe)",
-      "Bash(curl -s http://localhost:3000/sitemap.xml)"
+      "Bash(curl -s http://localhost:3000/sitemap.xml)",
+      "Bash(node -e ' *)",
+      "Bash(node --input-type=module -e ' *)",
+      "Read(//c/Users/conve/OneDrive/Documents/**)",
+      "Bash(curl -s http://localhost:3000/api/vehicles/honda-civic-2024)",
+      "Bash(node -e \"let d='';process.stdin.on\\('data',c=>d+=c\\).on\\('end',\\(\\)=>console.log\\(JSON.parse\\(d\\).id\\)\\)\")",
+      "Bash(sed -i '28s/NEXT_PUBLIC_SUPABASE_ANON_KEY/NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY/' README.md)",
+      "Bash(sed -i '63s/NEXT_PUBLIC_SUPABASE_ANON_KEY/NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY/' apps/web/src/components/auth/signup-form.tsx)",
+      "Bash(sed -i '58s/NEXT_PUBLIC_SUPABASE_ANON_KEY/NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY/' apps/web/src/components/vehicle/review-section.tsx)",
+      "Bash(npm run *)"
     ]
   }
 }

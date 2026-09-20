@@ -1,11 +1,11 @@
 import type { MetadataRoute } from 'next';
-import { getRepository } from '@/lib/data';
+import { getPublicRepository } from '@/lib/data';
 import { siteUrl } from '@/lib/env';
 
 export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const repository = await getRepository();
+  const repository = getPublicRepository();
   const slugs = await repository.listVehicleSlugs();
 
   return [

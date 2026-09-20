@@ -16,35 +16,11 @@ create extension if not exists "pg_trgm";
 
 -- ---------------------------------------------------------------------------
 -- Helpers
+--
+-- Só entram aqui funções que não referenciam tabelas: o corpo de uma função
+-- `language sql` é analisado na criação, então is_admin() e
+-- has_verified_email() vivem logo depois de public.profiles, mais abaixo.
 -- ---------------------------------------------------------------------------
-
--- SECURITY DEFINER para poder ler public.profiles de dentro das policies de
--- public.profiles sem recursao de RLS.
-create or replace function public.is_admin()
-returns boolean
-language sql
-stable
-security definer
-set search_path = public
-as $$
-  select exists (
-    select 1 from public.profiles p
-    where p.id = auth.uid() and p.role = 'admin'
-  );
-$$;
-
-create or replace function public.has_verified_email()
-returns boolean
-language sql
-stable
-security definer
-set search_path = public
-as $$
-  select exists (
-    select 1 from public.profiles p
-    where p.id = auth.uid() and p.email_verified_at is not null
-  );
-$$;
 
 create or replace function public.set_updated_at()
 returns trigger
@@ -73,6 +49,34 @@ create table public.profiles (
 
 comment on column public.profiles.email_verified_at is
   'Espelha auth.users.email_confirmed_at; null => usuario nao pode publicar reviews.';
+
+-- SECURITY DEFINER para poder ler public.profiles de dentro das policies de
+-- public.profiles sem recursao de RLS.
+create or replace function public.is_admin()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.profiles p
+    where p.id = auth.uid() and p.role = 'admin'
+  );
+$$;
+
+create or replace function public.has_verified_email()
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select exists (
+    select 1 from public.profiles p
+    where p.id = auth.uid() and p.email_verified_at is not null
+  );
+$$;
 
 -- Cria o profile no cadastro e mantem o status de verificacao em dia.
 create or replace function public.handle_new_user()
@@ -329,17 +333,29 @@ security definer
 set search_path = public
 as $$
 declare
+  target_review uuid;
   target uuid;
 begin
+  -- NEW não existe em DELETE (e OLD não existe em INSERT): referenciar o
+  -- registro errado levanta "record new is not assigned yet" em plpgsql.
+  if tg_op = 'DELETE' then
+    target_review := old.review_id;
+  else
+    target_review := new.review_id;
+  end if;
+
   select r.vehicle_id into target
   from public.reviews r
-  where r.id = coalesce(new.review_id, old.review_id);
+  where r.id = target_review;
 
   if target is not null then
     perform public.recompute_vehicle_summary(target);
   end if;
 
-  return coalesce(new, old);
+  if tg_op = 'DELETE' then
+    return old;
+  end if;
+  return new;
 end;
 $$;
 

@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { getRepository } from '@/lib/data';
+import { getSessionRepository } from '@/lib/data';
 import { getCurrentUser } from '@/lib/auth';
 import { errorResponse, handleRouteError } from '@/lib/api';
 
@@ -16,7 +16,7 @@ export async function GET(request: NextRequest) {
     const user = await getCurrentUser();
     if (!user) return errorResponse('Não autenticado', 401);
 
-    const repository = await getRepository();
+    const repository = await getSessionRepository();
     const review = await repository.getUserReview(vehicleId, user.id);
 
     return NextResponse.json(review, { headers: { 'cache-control': 'private, no-store' } });

@@ -25,7 +25,7 @@ A aplicação sobe em <http://localhost:3000>.
 
 ### Rodando sem Supabase
 
-Sem `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_ANON_KEY` definidos, a
+Sem `NEXT_PUBLIC_SUPABASE_URL` e `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` definidos, a
 camada de dados cai automaticamente para um **repositório em memória** com 16
 carros e avaliações geradas de forma determinística
 (`apps/web/src/lib/data/seed.ts`). Catálogo, filtros, ordenação e detalhe
@@ -41,23 +41,38 @@ quebrar.
 2. No SQL Editor, rode nesta ordem:
    - `supabase/migrations/0001_init.sql` — tabelas, triggers e políticas de RLS;
    - `supabase/seed.sql` — tipos de veículo, categorias, montadoras e catálogo.
-3. Copie as credenciais para `.env.local`:
+3. Crie o `.env.local` **na raiz do repositório** (o `next.config.mjs` do
+   `apps/web` o carrega de lá, para que o futuro app mobile compartilhe o mesmo
+   arquivo):
 
    ```
    NEXT_PUBLIC_SUPABASE_URL=https://<seu-projeto>.supabase.co
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=<anon key>
+   NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=<sb_publishable_...>
    NEXT_PUBLIC_SITE_URL=http://localhost:3000
    ```
+
+   A *anon key* JWT legada também funciona, em `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+   Reinicie o servidor depois de editar: o Next embute as variáveis
+   `NEXT_PUBLIC_*` na hora de compilar.
 
 4. Em **Authentication → URL Configuration**, adicione
    `http://localhost:3000/auth/callback` às *Redirect URLs*.
 5. Em **Authentication → Providers → Email**, mantenha *Confirm email* ativado —
    é ele que sustenta a regra de publicação.
+6. (Recomendado) Rode `supabase/tests/smoke_reviews.sql` no SQL Editor. Ele valida
+   os triggers de agregação (inserir, editar, denunciar, apagar) e não deixa
+   nada gravado: termina com uma exceção proposital que desfaz tudo — a mensagem
+   `SMOKE TEST PASSED` significa sucesso.
 
-> As consultas do repositório Supabase (`supabase-repository.ts`) foram escritas
-> contra este schema, mas ainda **não foram exercitadas contra um banco real** —
-> nenhum projeto Supabase foi provisionado durante a implementação. Vale um
-> smoke test do catálogo e da publicação de review logo após o passo 3.
+Se o app subir mostrando dados de exemplo mesmo com as variáveis definidas, o log
+do servidor traz o aviso `[valauto] Supabase não configurado` — é o fallback em
+memória entrando em ação.
+
+**Verificado contra um projeto Supabase real:** catálogo (todos os filtros,
+ordenações e paginação), detalhe, categorias, montadoras, geração estática das
+páginas de veículo e bloqueio de escrita anônima pela RLS. **Ainda não
+verificado de ponta a ponta:** cadastro → e-mail → publicar/editar review, e a
+ordenação por nota com reviews reais (o banco recém-semeado não tem nenhuma).
 
 ## Scripts
 
@@ -104,6 +119,26 @@ ordenar e filtrar por nota no banco, o que exige a coluna materializada.
 
 Categoria sem nenhuma nota vale `null`, nunca zero: "ainda não avaliado" é
 diferente de "avaliado com nota mínima".
+
+### Duas camadas de repositório: pública e de sessão
+
+`getPublicRepository()` usa um client Supabase **sem cookies** e serve tudo que é
+leitura pública (catálogo, detalhe, notas, opiniões publicadas). Ler `cookies()`
+torna a página dinâmica e quebra `generateStaticParams` — o build falha com
+*"cookies was called outside a request scope"* —, então o ISR depende dessa
+separação. É seguro porque a RLS já garante que anônimo só enxerga o que é
+público.
+
+`getSessionRepository()` usa o client com cookies e só é chamado em Route
+Handlers (publicar, editar, denunciar, "minha opinião"), que são sempre
+dinâmicos.
+
+### Ordenar pelo relacionado: `order('summary(overall_average)')`
+
+Para ordenar veículos pela nota (tabela relacionada), o supabase-js precisa da
+sintaxe `relacao(coluna)`. A opção `referencedTable` parece equivalente mas só
+ordena as linhas *embutidas* e deixa os veículos na ordem original — a
+ordenação "Melhor avaliados" ficaria arbitrária sem nenhum erro visível.
 
 ### Autenticação em ilhas client
 

@@ -10,7 +10,7 @@ import {
   type Vehicle,
   type VehicleTypeSlug,
 } from '@valauto/shared';
-import { getRepository } from '@/lib/data';
+import { getPublicRepository } from '@/lib/data';
 import { siteUrl } from '@/lib/env';
 import { StarRating } from '@/components/ui/star-rating';
 import { CategoryRatings } from '@/components/vehicle/category-ratings';
@@ -32,14 +32,14 @@ interface PageProps {
 
 /** Pre-renderiza os veiculos existentes; novos slugs entram sob demanda. */
 export async function generateStaticParams() {
-  const repository = await getRepository();
+  const repository = getPublicRepository();
   const slugs = await repository.listVehicleSlugs();
   return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
   const { slug } = await params;
-  const repository = await getRepository();
+  const repository = getPublicRepository();
   const vehicle = await repository.getVehicleBySlug(slug);
 
   if (!vehicle) return { title: 'Veículo não encontrado' };
@@ -68,7 +68,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function VehiclePage({ params }: PageProps) {
   const { slug } = await params;
-  const repository = await getRepository();
+  const repository = getPublicRepository();
 
   const vehicle = await repository.getVehicleBySlug(slug);
   if (!vehicle) notFound();

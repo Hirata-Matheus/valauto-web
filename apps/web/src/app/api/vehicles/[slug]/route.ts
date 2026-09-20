@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getRepository } from '@/lib/data';
+import { getPublicRepository } from '@/lib/data';
 import { errorResponse, handleRouteError } from '@/lib/api';
 
 /** GET /api/vehicles/[slug] — detalhe de um veículo (público). */
@@ -9,7 +9,7 @@ export async function GET(
 ) {
   try {
     const { slug } = await params;
-    const repository = await getRepository();
+    const repository = getPublicRepository();
     const vehicle = await repository.getVehicleBySlug(slug);
 
     if (!vehicle) return errorResponse('Veículo não encontrado', 404);

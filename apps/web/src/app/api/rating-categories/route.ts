@@ -1,12 +1,12 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { getRepository } from '@/lib/data';
+import { getPublicRepository } from '@/lib/data';
 import { handleRouteError } from '@/lib/api';
 
 /** GET /api/rating-categories?type=carro — categorias aplicáveis ao tipo (público). */
 export async function GET(request: NextRequest) {
   try {
     const type = request.nextUrl.searchParams.get('type') ?? undefined;
-    const repository = await getRepository();
+    const repository = getPublicRepository();
     const categories = await repository.listRatingCategories(type);
 
     return NextResponse.json(categories, {

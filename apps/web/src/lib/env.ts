@@ -6,11 +6,18 @@
  * navegaveis em desenvolvimento. Autenticacao, essa sim, exige Supabase.
  */
 
+// Chave publica do projeto. O Supabase agora emite "publishable keys"
+// (sb_publishable_...); a "anon key" JWT legada segue aceita como fallback.
+// Precisam ser lidas com acesso estatico a process.env.NEXT_PUBLIC_* — o Next
+// so injeta essas variaveis no bundle do browser dessa forma.
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL?.trim();
-const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY?.trim();
+const publicKey = (
+  process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+)?.trim();
 
 export const supabaseUrl = url && url.length > 0 ? url : null;
-export const supabaseAnonKey = anonKey && anonKey.length > 0 ? anonKey : null;
+/** Chave publica (publishable ou anon). O nome `anon` e mantido por compatibilidade interna. */
+export const supabaseAnonKey = publicKey && publicKey.length > 0 ? publicKey : null;
 
 /** true quando ha credenciais suficientes para falar com o Supabase. */
 export const isSupabaseConfigured = supabaseUrl !== null && supabaseAnonKey !== null;
@@ -25,7 +32,7 @@ export const siteUrl = (
 export function requireSupabaseCredentials(): { url: string; anonKey: string } {
   if (!supabaseUrl || !supabaseAnonKey) {
     throw new Error(
-      'Supabase não configurado. Defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_ANON_KEY em .env.local.',
+      'Supabase não configurado. Defina NEXT_PUBLIC_SUPABASE_URL e NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY em .env.local.',
     );
   }
   return { url: supabaseUrl, anonKey: supabaseAnonKey };

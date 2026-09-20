@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { getRepository } from '@/lib/data';
+import { getSessionRepository } from '@/lib/data';
 import { getCurrentUser } from '@/lib/auth';
 import { errorResponse, handleRouteError, sanitizeText } from '@/lib/api';
 import { clientKey, pruneRateLimitBuckets, rateLimit } from '@/lib/rate-limit';
@@ -28,7 +28,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ id:
 
     const { reason } = bodySchema.parse(await request.json());
 
-    const repository = await getRepository();
+    const repository = await getSessionRepository();
     await repository.reportReview(id, user.id, sanitizeText(reason));
 
     return new NextResponse(null, { status: 204 });

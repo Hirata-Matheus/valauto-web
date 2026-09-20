@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { SearchX } from 'lucide-react';
 import { parseVehicleFilters, pluralize } from '@valauto/shared';
-import { getRepository } from '@/lib/data';
+import { getPublicRepository } from '@/lib/data';
 import { CatalogFilters } from '@/components/catalog/catalog-filters';
 import { TypeTabs } from '@/components/catalog/type-tabs';
 import { VehicleCard } from '@/components/catalog/vehicle-card';
@@ -27,7 +27,7 @@ export default async function CatalogPage({ searchParams }: CatalogPageProps) {
   const params = await searchParams;
   const filters = parseVehicleFilters(params);
 
-  const repository = await getRepository();
+  const repository = getPublicRepository();
   const [result, brands, types] = await Promise.all([
     repository.listVehicles(filters),
     repository.listBrands(),

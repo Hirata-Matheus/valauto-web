@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowRight, GaugeCircle, ShieldCheck, Sparkles, Star } from 'lucide-react';
 import { RATING_CATEGORY_LABELS, RATING_CATEGORY_SLUGS, vehicleFiltersSchema } from '@valauto/shared';
-import { getRepository } from '@/lib/data';
+import { getPublicRepository } from '@/lib/data';
 import { VehicleCard } from '@/components/catalog/vehicle-card';
 import { VehicleGrid } from '@/components/catalog/vehicle-grid';
 import { Reveal } from '@/components/ui/reveal';
@@ -10,7 +10,7 @@ import { Reveal } from '@/components/ui/reveal';
 export const revalidate = 3600;
 
 export default async function HomePage() {
-  const repository = await getRepository();
+  const repository = getPublicRepository();
   const highlights = await repository.listVehicles(
     vehicleFiltersSchema.parse({ sort: 'rating_desc', perPage: '12' }),
   );

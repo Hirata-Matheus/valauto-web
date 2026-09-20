@@ -248,20 +248,16 @@ class SupabaseRepository implements VehicleRepository {
       case 'year_desc':
         query = query.order('year', { ascending: false });
         break;
+      // Ordenar o registro PAI por uma coluna do relacionado exige a sintaxe
+      // `relacao(coluna)`. A opcao `referencedTable` NAO serve aqui: ela so
+      // ordena as linhas embutidas e deixa os veiculos na ordem original.
+      // Sem nota (null) fica sempre no fim, nos dois sentidos.
       case 'rating_asc':
-        query = query.order('overall_average', {
-          referencedTable: 'summary',
-          ascending: true,
-          nullsFirst: false,
-        });
+        query = query.order('summary(overall_average)', { ascending: true, nullsFirst: false });
         break;
       case 'rating_desc':
       default:
-        query = query.order('overall_average', {
-          referencedTable: 'summary',
-          ascending: false,
-          nullsFirst: false,
-        });
+        query = query.order('summary(overall_average)', { ascending: false, nullsFirst: false });
         break;
     }
     // Desempate estavel — sem isso a paginacao pode repetir itens.

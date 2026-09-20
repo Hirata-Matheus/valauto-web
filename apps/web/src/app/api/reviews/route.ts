@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { reviewInputSchema } from '@valauto/shared';
-import { getRepository } from '@/lib/data';
+import { getSessionRepository } from '@/lib/data';
 import { getCurrentUser, isEmailVerified } from '@/lib/auth';
 import { errorResponse, handleRouteError, sanitizeText } from '@/lib/api';
 import { clientKey, pruneRateLimitBuckets, rateLimit } from '@/lib/rate-limit';
@@ -33,7 +33,7 @@ export async function POST(request: Request) {
     const body = await request.json();
     const input = reviewInputSchema.parse(body);
 
-    const repository = await getRepository();
+    const repository = await getSessionRepository();
     const review = await repository.upsertReview(user.id, {
       ...input,
       comment: input.comment ? sanitizeText(input.comment) : undefined,
